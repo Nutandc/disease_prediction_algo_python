@@ -94,7 +94,7 @@ np.ravel(y_test)
 
 @app.route('/')
 def hello_world():
-    return 'Disease Prediction microservices using Decision Tree, Random Forest , Naive Bayes '
+    return 'Disease Prediction microservices using Decision Tree,Random Forest,Naive Bayes '
 
 
 @app.route('/getAllSymptoms', methods=['GET'])
