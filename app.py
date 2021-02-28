@@ -230,4 +230,4 @@ def predict_by_naive_bayes():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
