@@ -7,8 +7,12 @@ from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 
+from flask_cors import CORS
+
 app = Flask(__name__)
 app.config["DEBUG"] = True
+app.config['CORS_ALLOW_HEADERS'] = 'access-control-allow-origin'
+CORS(app)
 
 l1 = ['back_pain', 'constipation', 'abdominal_pain', 'diarrhoea', 'mild_fever', 'yellow_urine',
       'yellowing_of_eyes', 'acute_liver_failure', 'fluid_overload', 'swelling_of_stomach',
@@ -102,14 +106,13 @@ def get_all_symptoms():
     return jsonify(l1)
 
 
-@app.route('/PredictByDecisionTree', methods=['POST'])
+@app.route('/PredictByDecisionTree', methods=['GET'])
 def predict_by_decision_tree():
-    data = request.get_json()
-    s1 = data.get('s1', 0)
-    s2 = data.get('s2', 0)
-    s3 = data.get('s3', 0)
-    s4 = data.get('s4', 0)
-    s5 = data.get('s5', 0)
+    s1= request.args.get('s1')
+    s4= request.args.get('s2')
+    s3= request.args.get('s3')
+    s4= request.args.get('s4')
+    s5= request.args.get('s5')
     clf3 = tree.DecisionTreeClassifier().fit(X, y)  # empty model of the decision tree
     y_pred = clf3.predict(X_test)
     p_symptoms = [s1, s2, s3, s4, s5]
@@ -143,17 +146,17 @@ def predict_by_decision_tree():
         })
 
 
-@app.route('/PredictByRandomForest', methods=['POST'])
+@app.route('/PredictByRandomForest', methods=['GET'])
 def predict_by_random_forest():
     clf4 = RandomForestClassifier()
     clf4 = clf4.fit(X, np.ravel(y))
     y_pred = clf4.predict(X_test)
     data = request.get_json()
-    s1 = data.get('s1', 0)
-    s2 = data.get('s2', 0)
-    s3 = data.get('s3', 0)
-    s4 = data.get('s4', 0)
-    s5 = data.get('s5', 0)
+    s1= request.args.get('s1')
+    s4= request.args.get('s2')
+    s3= request.args.get('s3')
+    s4= request.args.get('s4')
+    s5= request.args.get('s5')
     others = []
     p_symptoms = [s1, s2, s3, s4, s5]
     for k in range(0, len(l1)):
@@ -185,14 +188,13 @@ def predict_by_random_forest():
         })
 
 
-@app.route('/PredictByNaiveBayes', methods=['POST'])
+@app.route('/PredictByNaiveBayes', methods=['GET'])
 def predict_by_naive_bayes():
-    data = request.get_json()
-    s1 = data.get('s1', 0)
-    s2 = data.get('s2', 0)
-    s3 = data.get('s3', 0)
-    s4 = data.get('s4', 0)
-    s5 = data.get('s5', 0)
+    s1= request.args.get('s1')
+    s4= request.args.get('s2')
+    s3= request.args.get('s3')
+    s4= request.args.get('s4')
+    s5= request.args.get('s5')
     p_symptoms = [s1, s2, s3, s4, s5]
     gnb = GaussianNB()
     gnb = gnb.fit(X, np.ravel(y))
